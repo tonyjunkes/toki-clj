@@ -1,0 +1,6 @@
+{:deps {:aliases [:dev :test]}
+ :builds {:app {:target :node-script
+                :main toki.core/-main
+                :output-to "dist/app.js"
+                :devtools {:after-load toki.core/reload!
+                           :http-root "dist"}}}}

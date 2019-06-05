@@ -1,0 +1,24 @@
+{
+  "name": "toki",
+  "version": "0.1.0",
+  "description": "An IRC chat bot for Twitch built on ClojureScript, Node and friends.",
+  "main": "app.js",
+  "scripts": {
+    "build:watch": "shadow-cljs watch app",
+    "build": "shadow-cljs release app",
+    "compile": "shadow-cljs compile app"
+  },
+  "keywords": [],
+  "author": "@tonyjunkes / @peeshadog",
+  "license": "Eclipse 2.0",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "tmi.js": "^1.4.2",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.8.37",
+    "source-map-support": "^0.5.12",
+    "ws": "^7.0.0"
+  }
+}

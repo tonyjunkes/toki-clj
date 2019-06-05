@@ -1,0 +1,8 @@
+{:paths ["src"]
+ :aliases
+ {:dev
+  {:extra-deps {org.clojure/clojure {:mvn/version "1.10.0"}
+                org.clojure/clojurescript {:mvn/version "1.10.520"}
+                com.andrewmcveigh/cljs-time {:mvn/version "0.5.2"}}}
+  :test
+  {:extra-paths ["test"]}}}
