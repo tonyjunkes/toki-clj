@@ -1,17 +1,10 @@
 (ns toki.core
-  (:require ["dotenv" :as dotenv]
-            ["tmi.js" :as tmi]
-            ["winston" :as winston]))
-
-;; Setup logger
-(def logger (winston/createLogger
-              (clj->js {:transports [(new winston/transports.Console)
-                                     (new winston/transports.File (js-obj "filename" "logs/toki.log"))]})))
+  (:require [toki.logger :as logger]
+            ["dotenv" :as dotenv]
+            ["tmi.js" :as tmi]))
 
 ;; Test the logger
-(.log logger (js-obj "level" "info"
-                     "message" "Logger initialized."
-                     "timestamp" (.toLocaleString (new js/Date))))
+(logger/log "info" "Logger initialized.")
 
 ;; Load env settings
 (dotenv/config (js-obj "path" "./.env.toki"))
@@ -40,17 +33,12 @@
                              "!dice" (.then (.say client target (str "You rolled a " (roll-dice))))
                              :no-command)))
         (catch js/Object e
-          (.log logger
-                (js-obj "level" "error"
-                        "message" (str e)
-                        "timestamp" (.toLocaleString (new js/Date)))))))
+          (logger/log "error" (str e)))))
 
 (defn on-connected-handler
       "Handler for connection events to the channel."
       [addr port]
-      (.log logger (js-obj "level" "info"
-                           "message" (str "* Connected to " addr ":" port)
-                           "timestamp" (.toLocaleString (new js/Date)))))
+      (logger/log "info" (str "* Connected to " addr ":" port)))
 
 ;; Message listener
 (.on client "message" on-message-handler)
