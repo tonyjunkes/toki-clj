@@ -1,5 +1,5 @@
 (ns toki.logger
-  (:require [toki.date-time-util :as dt]
+  (:require [toki.util.datetime :as dt]
             ["winston" :as winston]))
 
 ;; Setup logger
@@ -10,4 +10,4 @@
 (defn log
       "Log a general message to the base log with a provided level."
       [level msg]
-      (.log instance (js-obj "level" "info" "message" msg "timestamp" (dt/now->utc))))
+      (.log instance (js-obj "level" level "message" msg "timestamp" (dt/now->utc))))

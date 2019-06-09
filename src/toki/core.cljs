@@ -1,18 +1,19 @@
 (ns toki.core
-  (:require [toki.logger :as logger]
-            ["dotenv" :as dotenv]
+  (:require [promesa.core :as p]
+            [toki.logger :as logger]
+            [toki.util.env :as env]
+            [toki.util.database :as db]
             ["tmi.js" :as tmi]))
-
-;; Test the logger
-(logger/log "info" "Logger initialized.")
-
-;; Load env settings
-(dotenv/config (js-obj "path" "./.env.toki"))
 
 ;; Set env settings to usable object
 (def opts (clj->js {:identity {:username (js* "process.env.BOT_USERNAME")
                                :password (js* "process.env.OAUTH_TOKEN")}
                     :channels [(js* "process.env.CHANNEL_NAME")]}))
+
+;; Test db query
+;(-> (.query db/spec "SELECT * FROM commands.game_wins")
+;    (p/then #(.log js/console %))
+;    (p/catch #(logger/log "error" (str %))))
 
 ;; Create client
 (def client (tmi/Client opts))
@@ -38,7 +39,7 @@
 (defn on-connected-handler
       "Handler for connection events to the channel."
       [addr port]
-      (logger/log "info" (str "* Connected to " addr ":" port)))
+      (logger/log "info" (str "Connected to " addr ":" port)))
 
 ;; Message listener
 (.on client "message" on-message-handler)
@@ -49,11 +50,15 @@
 (defn reload!
       "Called when the dev environment re-compiles."
       []
-      (.connect client)
+      (env/load)                                            ; Load env
+      (logger/log "info" "Logger initialized.")             ; Init logger
+      (.connect client)                                     ; Reconnect to Twitch client
       (println "Meow? Reloaded and ready!"))
 
 (defn -main
       "Main entry point for the client to connect."
       [& cli-args]
-      (.connect client)
+      (env/load)                                            ; Load env
+      (logger/log "info" "Logger initialized.")             ; Init logger
+      (.connect client)                                     ; Connect to Twitch client
       (println "Process started! Purring initialized."))

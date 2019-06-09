@@ -13,6 +13,7 @@
   "license": "EPL-1.0",
   "dependencies": {
     "dotenv": "^8.0.0",
+    "pg": "^7.11.0",
     "tmi.js": "^1.4.2",
     "winston": "^3.2.1"
   },
