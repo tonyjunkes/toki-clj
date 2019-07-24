@@ -1,4 +1,4 @@
-(defproject toki "0.1.0"
+(defproject toki "0.2.0"
   :source-paths []
   :test-paths []
   :resource-paths []

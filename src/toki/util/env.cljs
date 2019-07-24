@@ -5,4 +5,4 @@
 (defn load
       "Load app specific environment variables."
       []
-      (dotenv/config (js-obj "path" "./.env.toki")))
+      (dotenv/config (js-obj "path" "../.env.toki")))
